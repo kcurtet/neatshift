@@ -13,12 +13,12 @@ class FileOrganizerApp:
     
     def __init__(self, page: ft.Page):
         self.page = page
-        
+
         # Load user configuration
         self.config = UserConfig.load()
-        
-        # Create views
-        self.organizer_view = FileOrganizerView(page)
+
+        # Create views - pass config to organizer view for path persistence
+        self.organizer_view = FileOrganizerView(page, self.config)
         self.settings_view = SettingsView(page, self.config, self._on_config_changed)
         
         # Build UI

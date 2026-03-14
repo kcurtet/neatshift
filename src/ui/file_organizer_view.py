@@ -6,6 +6,7 @@ import flet as ft
 from pathlib import Path
 
 from config import AppSettings, Theme
+from config.user_config import UserConfig
 from domain import DefaultFileCategorizer
 from domain.file_item import FileItem, FileStatus
 from services import OrganizationService
@@ -17,20 +18,30 @@ class FileOrganizerView:
     Single Responsibility: UI coordination and user interaction.
     Dependency Inversion: Depends on service abstractions.
     """
-    
-    def __init__(self, page: ft.Page):
+
+    def __init__(self, page: ft.Page, user_config: UserConfig | None = None):
         self.page = page
-        self.source_path = ""
-        self.dest_path = ""
+        self.user_config = user_config or UserConfig.load()
+
+        # Load saved paths
+        self.source_path = self.user_config.last_source_path
+        self.dest_path = self.user_config.last_dest_path
+
         self.plan: list[FileItem] = []
         self.status_texts: list[ft.Text] = []
-        
+
         # Initialize services (Dependency Injection)
         categorizer = DefaultFileCategorizer()
         self.org_service = OrganizationService(categorizer)
-        
+
         # Build UI
         self.view = self._build_ui()
+
+        # Initialize field values with saved paths
+        if self.source_path:
+            self.source_field.value = self.source_path
+        if self.dest_path:
+            self.dest_field.value = self.dest_path
     
     def _configure_page(self) -> None:
         """Configure page properties."""
@@ -256,14 +267,20 @@ class FileOrganizerView:
         if path:
             self.source_path = path
             self.source_field.value = path
+            # Save to user config
+            self.user_config.last_source_path = path
+            self.user_config.save()
             self.page.update()
-    
+
     async def pick_dest(self, e: ft.ControlEvent) -> None:
         """Pick destination directory."""
         path = await ft.FilePicker().get_directory_path()
         if path:
             self.dest_path = path
             self.dest_field.value = path
+            # Save to user config
+            self.user_config.last_dest_path = path
+            self.user_config.save()
             self.page.update()
     
     def run_preview(self, e: ft.ControlEvent) -> None:
