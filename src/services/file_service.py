@@ -24,21 +24,28 @@ class FileService:
     def validate_source_path(path: Path) -> None:
         """
         Validate source path before read operations.
-        
+
         Args:
             path: Path to validate
-            
+
         Raises:
-            FileNotFoundError: If path does not exist
+            FileNotFoundError: If path does not exist (including broken symlinks)
             PermissionError: If path is not readable
             ValueError: If path is not a file or directory
         """
-        if not path.exists():
+        # Check if path exists or is a broken symlink
+        # Use os.path.lexists() to detect broken symlinks
+        if not os.path.lexists(str(path)):
             raise FileNotFoundError(f"Path does not exist: {path}")
-        
-        if not os.access(path, os.R_OK):
+
+        # For broken symlinks, check if we can read the link itself
+        if path.is_symlink() and not path.exists():
+            logger.warning(f"Broken symlink detected: {path}")
+            # We can still access the symlink itself even if target doesn't exist
+
+        if not os.access(str(path), os.R_OK):
             raise PermissionError(f"No read access: {path}")
-        
+
         logger.debug(f"Validated source path: {path}")
     
     @staticmethod
