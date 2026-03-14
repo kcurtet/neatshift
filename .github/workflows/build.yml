@@ -93,19 +93,18 @@ jobs:
 
       - name: Package build
         run: |
-          cd ${{ matrix.artifact }}
           if [ "${{ matrix.platform }}" = "windows" ]; then
-            7z a -tzip ../neatshift-${{ matrix.platform }}.zip *
+            cd ${{ matrix.artifact }}
+            7z a -tzip "${{ github.workspace }}/neatshift-${{ matrix.platform }}.zip" *
           else
-            tar czf ../neatshift-${{ matrix.platform }}.tar.gz *
+            tar czf "${{ github.workspace }}/neatshift-${{ matrix.platform }}.tar.gz" -C "${{ matrix.artifact }}" .
           fi
-          cd ..
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: neatshift-${{ matrix.platform }}
-          path: neatshift-${{ matrix.platform }}.*
+          path: ${{ github.workspace }}/neatshift-${{ matrix.platform }}.*
           if-no-files-found: error
           retention-days: 365
 
