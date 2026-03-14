@@ -1,5 +1,6 @@
 """
 User configuration model - Persists category settings and filters.
+Uses platform-appropriate directories for config storage.
 """
 import json
 import re
@@ -7,14 +8,28 @@ from dataclasses import dataclass, field, asdict
 from pathlib import Path
 from typing import Optional
 import logging
+from platformdirs import user_config_dir, user_log_dir
 
 from .settings import FileCategory, CATEGORY_EXTENSIONS
 
 logger = logging.getLogger(__name__)
 
-# Configuration file location
-CONFIG_DIR = Path.home() / ".organizador-archivos"
+# Application name for directory paths
+APP_NAME = "organizador-archivos"
+APP_AUTHOR = "personal"
+
+# Configuration directories (platform-specific)
+# Linux: ~/.config/organizador-archivos/
+# macOS: ~/Library/Application Support/organizador-archivos/
+# Windows: %APPDATA%\organizador-archivos\
+CONFIG_DIR = Path(user_config_dir(APP_NAME, APP_AUTHOR))
 CONFIG_FILE = CONFIG_DIR / "config.json"
+
+# Log directories (platform-specific)
+# Linux: ~/.local/state/organizador-archivos/log/
+# macOS: ~/Library/Logs/organizador-archivos/
+# Windows: %LOCALAPPDATA%\organizador-archivos\log\
+LOG_DIR = Path(user_log_dir(APP_NAME, APP_AUTHOR))
 
 
 @dataclass

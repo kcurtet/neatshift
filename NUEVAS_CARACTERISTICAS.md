@@ -110,9 +110,24 @@ Destino/
 
 ## Persistencia de Configuración
 
-La configuración se guarda automáticamente en:
+La configuración se guarda automáticamente en directorios específicos de cada plataforma:
+
+### Linux
 ```
-~/.organizador-archivos/config.json
+~/.config/organizador-archivos/config.json          # Configuración
+~/.local/state/organizador-archivos/log/app.log     # Logs
+```
+
+### macOS
+```
+~/Library/Application Support/organizador-archivos/config.json    # Configuración
+~/Library/Logs/organizador-archivos/app.log                       # Logs
+```
+
+### Windows
+```
+%APPDATA%\organizador-archivos\config.json          # Configuración
+%LOCALAPPDATA%\organizador-archivos\log\app.log     # Logs
 ```
 
 Incluye:
@@ -176,8 +191,14 @@ Siempre haz backup de tus archivos importantes antes de ejecutar la organizació
 4. Escapa caracteres especiales: `\.` para punto literal
 
 ### La configuración no se guarda
-1. Verifica permisos de escritura en `~/.organizador-archivos/`
-2. Revisa los logs en `~/.organizador-archivos/logs/app.log`
+1. Verifica permisos de escritura en el directorio de configuración:
+   - **Linux**: `~/.config/organizador-archivos/`
+   - **macOS**: `~/Library/Application Support/organizador-archivos/`
+   - **Windows**: `%APPDATA%\organizador-archivos\`
+2. Revisa los logs:
+   - **Linux**: `~/.local/state/organizador-archivos/log/app.log`
+   - **macOS**: `~/Library/Logs/organizador-archivos/app.log`
+   - **Windows**: `%LOCALAPPDATA%\organizador-archivos\log\app.log`
 
 ## Arquitectura Técnica
 

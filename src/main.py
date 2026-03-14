@@ -34,6 +34,12 @@ Benefits of this architecture:
 - Easy to extend (add new categorizers, file services)
 - Clear separation of concerns
 - Each module has a single, well-defined purpose
+
+Platform Support:
+- Configuration and logs use platform-appropriate directories via platformdirs
+- Linux: ~/.config/organizador-archivos/ and ~/.local/state/organizador-archivos/log/
+- macOS: ~/Library/Application Support/organizador-archivos/ and ~/Library/Logs/organizador-archivos/
+- Windows: %APPDATA%\\organizador-archivos\\ and %LOCALAPPDATA%\\organizador-archivos\\log\\
 """
 
 import logging
@@ -49,6 +55,7 @@ if str(project_root) not in sys.path:
 import flet as ft
 
 from src.ui.tabbed_view import FileOrganizerApp
+from src.config.user_config import LOG_DIR
 
 
 def setup_logging() -> None:
@@ -56,12 +63,14 @@ def setup_logging() -> None:
     Configure application logging.
     
     Logs to both console and file for debugging.
-    File logs are stored in user's home directory.
+    File logs are stored in platform-appropriate directory:
+    - Linux: ~/.local/state/organizador-archivos/log/
+    - macOS: ~/Library/Logs/organizador-archivos/
+    - Windows: %LOCALAPPDATA%\organizador-archivos\log\
     """
-    # Create logs directory in user home
-    log_dir = Path.home() / ".organizador-archivos" / "logs"
-    log_dir.mkdir(parents=True, exist_ok=True)
-    log_file = log_dir / "app.log"
+    # Create logs directory
+    LOG_DIR.mkdir(parents=True, exist_ok=True)
+    log_file = LOG_DIR / "app.log"
     
     # Configure root logger
     logging.basicConfig(

@@ -10,6 +10,7 @@ authors = [
 ]
 dependencies = [
     "flet[all]>=0.27.0",
+    "platformdirs>=4.0.0",
 ]
 
 # Flet build configuration
