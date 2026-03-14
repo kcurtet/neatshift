@@ -1,0 +1,98 @@
+[project]
+name = "organizador-archivos"
+version = "1.0.0"
+description = "Organizador de archivos con GUI para disco duro externo"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [
+    { name = "Kevin Curtet", email = "kcurtet@gmail.com" }
+]
+dependencies = [
+    "flet[all]>=0.27.0",
+]
+
+# Flet build configuration
+# Docs: https://docs.flet.dev/publish
+
+[tool.flet]
+# Organización en formato reverse DNS (importante para bundle IDs de Android/iOS)
+org = "com.personal.organizador"
+# Nombre del producto mostrado en la UI
+product = "Organizador de Archivos"
+# Nombre de la compañía
+company = "Personal"
+# Copyright
+copyright = "Copyright © 2024-2026"
+# Número interno de build (incrementar en cada release)
+build_number = 1
+# Nombre del artefacto (ejecutable/bundle)
+artifact = "OrganizadorArchivos"
+# Permisos multiplataforma
+permissions = ["storage"]
+
+[tool.flet.app]
+# Path al código fuente (directorio principal donde está main.py)
+path = "src"
+# Módulo de entrada (sin .py) - busca main.py en src/
+module = "main"
+# Excluir archivos y directorios del build
+exclude = [
+    "__pycache__",
+    "*.pyc",
+    ".pytest_cache",
+    ".ruff_cache",
+    "tests",
+    ".git",
+    ".github"
+]
+
+# Compilar código Python a bytecode (.pyc)
+[tool.flet.compile]
+app = true          # Compilar código de la aplicación
+packages = true     # Compilar dependencias instaladas
+
+# Limpiar archivos innecesarios del build
+[tool.flet.cleanup]
+app = true
+packages = true
+app_files = [
+    "**/*.md",
+    "**/*.txt",
+    "**/tests/**"
+]
+package_files = [
+    "**/*.pyi",
+    "**/*.typed"
+]
+
+# Configuración de splash screen
+[tool.flet.splash]
+color = "#2196F3"        # Azul material (modo claro)
+dark_color = "#1976D2"   # Azul oscuro (modo oscuro)
+android = true
+ios = true
+web = true
+
+# Permisos de Android (importante para acceso a archivos)
+[tool.flet.android.permission]
+"android.permission.READ_EXTERNAL_STORAGE" = true
+"android.permission.WRITE_EXTERNAL_STORAGE" = true
+"android.permission.MANAGE_EXTERNAL_STORAGE" = true
+
+# Permisos de macOS (importante para acceso a archivos)
+[tool.flet.macos.entitlement]
+"com.apple.security.files.user-selected.read-write" = true
+"com.apple.security.app-sandbox" = false
+
+# Configuración específica de Windows
+[tool.flet.windows]
+artifact = "OrganizadorArchivos"
+
+# Configuración específica de Linux
+[tool.flet.linux]
+artifact = "organizador-archivos"
+
+# Configuración específica de macOS
+[tool.flet.macos]
+artifact = "OrganizadorArchivos"

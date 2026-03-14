@@ -1,0 +1,119 @@
+# Build multiplataforma para Organizador de Archivos
+# Ejecuta builds automáticos en push, PR, tags y manual dispatch
+# Docs: https://docs.flet.dev/publish/#github-actions
+
+name: Build
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      build_linux:
+        description: 'Build Linux'
+        type: boolean
+        default: true
+      build_windows:
+        description: 'Build Windows'
+        type: boolean
+        default: true
+      build_macos:
+        description: 'Build macOS'
+        type: boolean
+        default: true
+
+env:
+  PYTHON_VERSION: "3.12"
+  FLET_CLI_NO_RICH_OUTPUT: 1
+  PYTHONUTF8: 1
+
+jobs:
+  build:
+    name: Build ${{ matrix.platform }}
+    runs-on: ${{ matrix.os }}
+    if: |
+      (matrix.platform == 'linux' && (github.event.inputs.build_linux != 'false' || github.event_name != 'workflow_dispatch')) ||
+      (matrix.platform == 'windows' && (github.event.inputs.build_windows != 'false' || github.event_name != 'workflow_dispatch')) ||
+      (matrix.platform == 'macos' && (github.event.inputs.build_macos != 'false' || github.event_name != 'workflow_dispatch'))
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: linux
+            os: ubuntu-latest
+            artifact: build/linux
+
+          - platform: windows
+            os: windows-latest
+            artifact: build/windows
+
+          - platform: macos
+            os: macos-latest
+            artifact: build/macos
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+
+      - name: Install Linux dependencies
+        if: matrix.platform == 'linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libgtk-3-dev \
+            libgstreamer1.0-dev \
+            libgstreamer-plugins-base1.0-dev \
+            gstreamer1.0-plugins-good \
+            gstreamer1.0-plugins-bad \
+            gstreamer1.0-plugins-ugly \
+            gstreamer1.0-libav \
+            libsecret-1-dev
+
+      - name: Install Flet
+        run: pip install flet
+
+      - name: Build ${{ matrix.platform }}
+        run: flet build ${{ matrix.platform }} --verbose
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: organizador-archivos-${{ matrix.platform }}
+          path: ${{ matrix.artifact }}
+          if-no-files-found: error
+          retention-days: 30
+
+  release:
+    name: Create Release
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/**/*
+          generate_release_notes: true
+          draft: false
+          prerelease: false

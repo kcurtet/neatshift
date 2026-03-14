@@ -1,0 +1,70 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# PyInstaller
+build/
+dist/
+*.spec.bak
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project specific
+*.exe
+*.log
+
+# Ruff
+.ruff_cache/
+
+# Application logs
+.organizador-archivos/
+
+# Flet build outputs
+build/
+*.pyc
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+
+# Build artifacts
+*.exe
+*.app
+*.apk
+*.aab
+*.ipa
+
+# User data
+.organizador-archivos/
+
+# Backups
+*.backup
+
+# Documentación temporal (no versionar)
+CAMBIOS_APLICADOS.md
+PROBLEMAS_FLET*.md
+RESUMEN_FINAL.md
+VERIFICACION.md
+MEJORAS.md
