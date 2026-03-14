@@ -53,14 +53,6 @@ jobs:
           channel: 'stable'
           cache: true
 
-      - name: Cache Flet build
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.pub-cache
-            .flet
-          key: ${{ runner.os }}-flet-${{ hashFiles('**/pubspec.yaml') }}
-
       - name: Install Linux dependencies
         if: matrix.platform == 'linux'
         run: |
