@@ -78,19 +78,6 @@ jobs:
       - name: Build ${{ matrix.platform }}
         run: flet build ${{ matrix.platform }} --verbose
 
-      - name: Clean build artifacts
-        run: |
-          # Remove .pyc, __pycache__, and other unnecessary files
-          if [ "${{ matrix.platform }}" = "windows" ]; then
-            # Windows - use PowerShell
-            powershell -Command "Get-ChildItem -Path ${{ matrix.artifact }} -Recurse -Include *.pyc,*.pyd,__pycache__ | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue"
-          else
-            # Linux/Mac - use find
-            find ${{ matrix.artifact }} -type f -name "*.pyc" -delete
-            find ${{ matrix.artifact }} -type f -name "*.pyd" -delete
-            find ${{ matrix.artifact }} -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
-          fi
-
       - name: Package build
         run: |
           if [ "${{ matrix.platform }}" = "windows" ]; then
