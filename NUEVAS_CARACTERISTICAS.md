@@ -1,4 +1,4 @@
-# Organizador de Archivos - Nuevas Características
+# NeatShift - Nuevas Características
 
 ## Sistema de Pestañas (Tabs)
 
@@ -114,20 +114,20 @@ La configuración se guarda automáticamente en directorios específicos de cada
 
 ### Linux
 ```
-~/.config/organizador-archivos/config.json          # Configuración
-~/.local/state/organizador-archivos/log/app.log     # Logs
+~/.config/neatshift/config.json          # Configuración
+~/.local/state/neatshift/log/app.log     # Logs
 ```
 
 ### macOS
 ```
-~/Library/Application Support/organizador-archivos/config.json    # Configuración
-~/Library/Logs/organizador-archivos/app.log                       # Logs
+~/Library/Application Support/neatshift/config.json    # Configuración
+~/Library/Logs/neatshift/app.log                       # Logs
 ```
 
 ### Windows
 ```
-%APPDATA%\organizador-archivos\config.json          # Configuración
-%LOCALAPPDATA%\organizador-archivos\log\app.log     # Logs
+%APPDATA%\neatshift\config.json          # Configuración
+%LOCALAPPDATA%\neatshift\log\app.log     # Logs
 ```
 
 Incluye:
@@ -192,13 +192,13 @@ Siempre haz backup de tus archivos importantes antes de ejecutar la organizació
 
 ### La configuración no se guarda
 1. Verifica permisos de escritura en el directorio de configuración:
-   - **Linux**: `~/.config/organizador-archivos/`
-   - **macOS**: `~/Library/Application Support/organizador-archivos/`
-   - **Windows**: `%APPDATA%\organizador-archivos\`
+   - **Linux**: `~/.config/neatshift/`
+   - **macOS**: `~/Library/Application Support/neatshift/`
+   - **Windows**: `%APPDATA%\neatshift\`
 2. Revisa los logs:
-   - **Linux**: `~/.local/state/organizador-archivos/log/app.log`
-   - **macOS**: `~/Library/Logs/organizador-archivos/app.log`
-   - **Windows**: `%LOCALAPPDATA%\organizador-archivos\log\app.log`
+   - **Linux**: `~/.local/state/neatshift/log/app.log`
+   - **macOS**: `~/Library/Logs/neatshift/app.log`
+   - **Windows**: `%LOCALAPPDATA%\neatshift\log\app.log`
 
 ## Arquitectura Técnica
 

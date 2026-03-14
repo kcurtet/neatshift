@@ -1,6 +1,6 @@
-# 📁 Organizador de Archivos
+# 📁 NeatShift
 
-Aplicación multiplataforma para organizar archivos automáticamente por categoría y fecha.
+Automatically organize your files by category and date.
 
 ![Python](https://img.shields.io/badge/Python-3.12+-blue.svg)
 ![Flet](https://img.shields.io/badge/Flet-0.27+-green.svg)
@@ -46,8 +46,8 @@ Aplicación multiplataforma para organizar archivos automáticamente por categor
 
 ```bash
 # Clonar repositorio
-git clone https://github.com/tu-usuario/file-organizer.git
-cd file-organizer
+git clone https://github.com/kcurtet/neatshift.git
+cd neatshift
 
 # Instalar dependencias
 pip install flet
@@ -223,7 +223,7 @@ Este proyecto está bajo la Licencia MIT. Ver `LICENSE` para más detalles.
 
 ## 🐛 Reportar problemas
 
-Si encuentras algún bug o tienes sugerencias, por favor abre un [issue](https://github.com/tu-usuario/file-organizer/issues).
+Si encuentras algún bug o tienes sugerencias, por favor abre un [issue](https://github.com/kcurtet/neatshift/issues).
 
 ## ⭐ Agradecimientos
 

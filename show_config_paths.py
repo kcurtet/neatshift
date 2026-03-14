@@ -15,7 +15,7 @@ from src.config.user_config import CONFIG_DIR, CONFIG_FILE, LOG_DIR
 
 def main():
     """Display configuration and log directories."""
-    print("📁 Organizador de Archivos - Directorios del Sistema")
+    print("📁 NeatShift - Directorios del Sistema")
     print("=" * 60)
     print()
     

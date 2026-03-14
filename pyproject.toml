@@ -18,17 +18,17 @@ dependencies = [
 
 [tool.flet]
 # Organización en formato reverse DNS (importante para bundle IDs de Android/iOS)
-org = "com.personal.organizador"
+org = "com.kcurtet.neatshift"
 # Nombre del producto mostrado en la UI
-product = "Organizador de Archivos"
+product = "NeatShift"
 # Nombre de la compañía
-company = "Personal"
+company = "Kevin Curtet"
 # Copyright
-copyright = "Copyright © 2024-2026"
+copyright = "Copyright © 2024-2025"
 # Número interno de build (incrementar en cada release)
-build_number = 1
+build_number = "1"
 # Nombre del artefacto (ejecutable/bundle)
-artifact = "OrganizadorArchivos"
+artifact = "neatshift"
 # Permisos multiplataforma
 permissions = ["storage"]
 
@@ -88,12 +88,12 @@ web = true
 
 # Configuración específica de Windows
 [tool.flet.windows]
-artifact = "OrganizadorArchivos"
+artifact = "neatshift"
 
 # Configuración específica de Linux
 [tool.flet.linux]
-artifact = "organizador-archivos"
+artifact = "neatshift"
 
 # Configuración específica de macOS
 [tool.flet.macos]
-artifact = "OrganizadorArchivos"
+artifact = "neatshift"

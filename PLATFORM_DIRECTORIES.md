@@ -1,18 +1,18 @@
 # Directorios de Configuración por Plataforma
 
-El Organizador de Archivos usa directorios estándar según el sistema operativo donde se ejecuta, gracias a la biblioteca `platformdirs`.
+NeatShift usa directorios estándar según el sistema operativo donde se ejecuta, gracias a la biblioteca `platformdirs`.
 
 ## 🐧 Linux (XDG Base Directory)
 
 ### Configuración
 ```bash
-~/.config/organizador-archivos/
+~/.config/neatshift/
 └── config.json
 ```
 
 ### Logs
 ```bash
-~/.local/state/organizador-archivos/log/
+~/.local/state/neatshift/log/
 └── app.log
 ```
 
@@ -25,13 +25,13 @@ Puedes personalizar estas ubicaciones con:
 
 ### Configuración
 ```bash
-~/Library/Application Support/organizador-archivos/
+~/Library/Application Support/neatshift/
 └── config.json
 ```
 
 ### Logs
 ```bash
-~/Library/Logs/organizador-archivos/
+~/Library/Logs/neatshift/
 └── app.log
 ```
 
@@ -39,17 +39,17 @@ Puedes personalizar estas ubicaciones con:
 
 ### Configuración
 ```
-%APPDATA%\organizador-archivos\
+%APPDATA%\neatshift\
 └── config.json
 ```
-Ejemplo: `C:\Users\TuUsuario\AppData\Roaming\organizador-archivos\`
+Ejemplo: `C:\Users\TuUsuario\AppData\Roaming\neatshift\`
 
 ### Logs
 ```
-%LOCALAPPDATA%\organizador-archivos\log\
+%LOCALAPPDATA%\neatshift\log\
 └── app.log
 ```
-Ejemplo: `C:\Users\TuUsuario\AppData\Local\organizador-archivos\log\`
+Ejemplo: `C:\Users\TuUsuario\AppData\Local\neatshift\log\`
 
 ## 📱 Android/iOS (futuro)
 
@@ -70,17 +70,17 @@ O con el venv:
 
 Salida de ejemplo (Linux):
 ```
-📁 Organizador de Archivos - Directorios del Sistema
+📁 NeatShift - Directorios del Sistema
 ============================================================
 
 🗂️  Configuración:
-   Directorio: /home/usuario/.config/organizador-archivos
-   Archivo:    /home/usuario/.config/organizador-archivos/config.json
+   Directorio: /home/usuario/.config/neatshift
+   Archivo:    /home/usuario/.config/neatshift/config.json
    Existe:     ✅ Sí
 
 📝 Logs:
-   Directorio: /home/usuario/.local/state/organizador-archivos/log
-   Archivo:    /home/usuario/.local/state/organizador-archivos/log/app.log
+   Directorio: /home/usuario/.local/state/neatshift/log
+   Archivo:    /home/usuario/.local/state/neatshift/log/app.log
    Existe:     ✅ Sí
 
 💻 Sistema:    Linux 6.18.13
@@ -96,15 +96,15 @@ Salida de ejemplo (Linux):
 
 ### Linux/macOS
 ```bash
-rm -rf ~/.config/organizador-archivos
-rm -rf ~/.local/state/organizador-archivos  # Linux
-rm -rf ~/Library/Logs/organizador-archivos  # macOS
+rm -rf ~/.config/neatshift
+rm -rf ~/.local/state/neatshift  # Linux
+rm -rf ~/Library/Logs/neatshift  # macOS
 ```
 
 ### Windows (PowerShell)
 ```powershell
-Remove-Item -Recurse -Force "$env:APPDATA\organizador-archivos"
-Remove-Item -Recurse -Force "$env:LOCALAPPDATA\organizador-archivos"
+Remove-Item -Recurse -Force "$env:APPDATA\neatshift"
+Remove-Item -Recurse -Force "$env:LOCALAPPDATA\neatshift"
 ```
 
 ## 🔧 Dependencias
