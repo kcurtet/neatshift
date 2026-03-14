@@ -176,6 +176,12 @@ class OrganizationService:
         def move_single_file(idx: int, item: FileItem) -> tuple[int, FileItem]:
             """Move a single file and update its status."""
             try:
+                # Check if source file exists before attempting move
+                if not item.src.exists():
+                    item.mark_error()
+                    logger.warning(f"File not found (may have been deleted): {item.src}")
+                    return idx, item
+
                 actual_dst = self.file_service.move_file(item.src, item.dst)
                 item.mark_success(actual_dst)
                 logger.debug(f"Successfully moved: {item.src} → {actual_dst}")
