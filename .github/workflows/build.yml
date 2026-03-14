@@ -79,6 +79,7 @@ jobs:
         run: flet build ${{ matrix.platform }} --verbose
 
       - name: Package build
+        shell: bash
         run: |
           if [ "${{ matrix.platform }}" = "windows" ]; then
             cd ${{ matrix.artifact }}

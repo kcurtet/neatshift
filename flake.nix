@@ -20,13 +20,13 @@
 
         # Metadata del proyecto
         packages.default = pkgs.stdenv.mkDerivation {
-          pname = "organizador-archivos";
+          pname = "neatshift";
           version = "1.0.0";
           src = ./.;
           
           meta = with pkgs.lib; {
             description = "Organizador de archivos con GUI multiplataforma usando Flet";
-            homepage = "https://github.com/kcurtet/file-organizer";
+            homepage = "https://github.com/kcurtet/neatshift";
             license = licenses.mit;
             platforms = platforms.all;
             maintainers = [ ];
