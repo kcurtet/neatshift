@@ -39,7 +39,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Python ${{ env.PYTHON_VERSION }}
         uses: actions/setup-python@v5
@@ -52,6 +52,14 @@ jobs:
         with:
           channel: 'stable'
           cache: true
+
+      - name: Cache Flet build
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pub-cache
+            .flet
+          key: ${{ runner.os }}-flet-${{ hashFiles('**/pubspec.yaml') }}
 
       - name: Install Linux dependencies
         if: matrix.platform == 'linux'
@@ -78,13 +86,36 @@ jobs:
       - name: Build ${{ matrix.platform }}
         run: flet build ${{ matrix.platform }} --verbose
 
+      - name: Clean build artifacts
+        run: |
+          # Remove .pyc, __pycache__, and other unnecessary files
+          if [ "${{ matrix.platform }}" = "windows" ]; then
+            # Windows - use PowerShell
+            powershell -Command "Get-ChildItem -Path ${{ matrix.artifact }} -Recurse -Include *.pyc,*.pyd,__pycache__ | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue"
+          else
+            # Linux/Mac - use find
+            find ${{ matrix.artifact }} -type f -name "*.pyc" -delete
+            find ${{ matrix.artifact }} -type f -name "*.pyd" -delete
+            find ${{ matrix.artifact }} -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
+          fi
+
+      - name: Package build
+        run: |
+          cd ${{ matrix.artifact }}
+          if [ "${{ matrix.platform }}" = "windows" ]; then
+            7z a -tzip ../neatshift-${{ matrix.platform }}.zip *
+          else
+            tar czf ../neatshift-${{ matrix.platform }}.tar.gz *
+          fi
+          cd ..
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: neatshift-${{ matrix.platform }}
-          path: ${{ matrix.artifact }}
+          path: neatshift-${{ matrix.platform }}.*
           if-no-files-found: error
-          retention-days: 90
+          retention-days: 365
 
   release:
     name: Create Release
@@ -96,17 +127,21 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
           path: artifacts
+          pattern: neatshift-*
+          merge-multiple: true
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          files: artifacts/**/*
+          files: |
+            artifacts/*.tar.gz
+            artifacts/*.zip
           generate_release_notes: true
           draft: false
           prerelease: false
