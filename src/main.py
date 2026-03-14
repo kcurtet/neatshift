@@ -37,9 +37,9 @@ Benefits of this architecture:
 
 Platform Support:
 - Configuration and logs use platform-appropriate directories via platformdirs
-- Linux: ~/.config/organizador-archivos/ and ~/.local/state/organizador-archivos/log/
-- macOS: ~/Library/Application Support/organizador-archivos/ and ~/Library/Logs/organizador-archivos/
-- Windows: %APPDATA%\\organizador-archivos\\ and %LOCALAPPDATA%\\organizador-archivos\\log\\
+- Linux: ~/.config/neatshift/ and ~/.local/state/neatshift/log/
+- macOS: ~/Library/Application Support/neatshift/ and ~/Library/Logs/neatshift/
+- Windows: %APPDATA%\\neatshift\\ and %LOCALAPPDATA%\\neatshift\\log\\
 """
 
 import logging
@@ -55,12 +55,12 @@ from config.user_config import LOG_DIR
 def setup_logging() -> None:
     """
     Configure application logging.
-    
+
     Logs to both console and file for debugging.
     File logs are stored in platform-appropriate directory:
-    - Linux: ~/.local/state/organizador-archivos/log/
-    - macOS: ~/Library/Logs/organizador-archivos/
-    - Windows: %LOCALAPPDATA%\\organizador-archivos\\log\\
+    - Linux: ~/.local/state/neatshift/log/
+    - macOS: ~/Library/Logs/neatshift/
+    - Windows: %LOCALAPPDATA%\\neatshift\\log\\
     """
     # Create logs directory
     LOG_DIR.mkdir(parents=True, exist_ok=True)

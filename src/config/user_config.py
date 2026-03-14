@@ -15,20 +15,20 @@ from config.settings import FileCategory, CATEGORY_EXTENSIONS
 logger = logging.getLogger(__name__)
 
 # Application name for directory paths
-APP_NAME = "organizador-archivos"
+APP_NAME = "neatshift"
 APP_AUTHOR = "personal"
 
 # Configuration directories (platform-specific)
-# Linux: ~/.config/organizador-archivos/
-# macOS: ~/Library/Application Support/organizador-archivos/
-# Windows: %APPDATA%\organizador-archivos\
+# Linux: ~/.config/neatshift/
+# macOS: ~/Library/Application Support/neatshift/
+# Windows: %APPDATA%\neatshift\
 CONFIG_DIR = Path(user_config_dir(APP_NAME, APP_AUTHOR))
 CONFIG_FILE = CONFIG_DIR / "config.json"
 
 # Log directories (platform-specific)
-# Linux: ~/.local/state/organizador-archivos/log/
-# macOS: ~/Library/Logs/organizador-archivos/
-# Windows: %LOCALAPPDATA%\organizador-archivos\log\
+# Linux: ~/.local/state/neatshift/log/
+# macOS: ~/Library/Logs/neatshift/
+# Windows: %LOCALAPPDATA%\neatshift\log\
 LOG_DIR = Path(user_log_dir(APP_NAME, APP_AUTHOR))
 
 
