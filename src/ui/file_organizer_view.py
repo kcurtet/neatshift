@@ -7,7 +7,7 @@ from pathlib import Path
 
 from config import AppSettings, Theme
 from config.user_config import UserConfig
-from domain import DefaultFileCategorizer
+from domain import DefaultFileCategorizer, ConfigurableFileCategorizer
 from domain.file_item import FileItem, FileStatus
 from services import OrganizationService
 
@@ -491,6 +491,20 @@ class FileOrganizerView:
         return self.view
     
     def refresh_config(self):
-        """Refresh configuration (placeholder for future implementation)."""
-        # TODO: Implement configuration refresh logic
-        pass
+        """Refresh configuration to apply changes dynamically.
+        
+        Called when user modifies settings in the configuration tab.
+        Reloads config from disk and updates the categorizer without restart.
+        """
+        # Reload user config from disk (it was saved by tabbed_view)
+        self.user_config = UserConfig.load()
+        
+        # Recreate categorizer with updated configuration
+        categorizer = ConfigurableFileCategorizer(self.user_config)
+        
+        # Update the organization service with new categorizer
+        self.org_service = OrganizationService(categorizer)
+        
+        # Clear current plan to avoid inconsistency with new categories/filters
+        if self.plan:
+            self.clear_all(None)
