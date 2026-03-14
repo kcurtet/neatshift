@@ -34,10 +34,6 @@ jobs:
   build:
     name: Build ${{ matrix.platform }}
     runs-on: ${{ matrix.os }}
-    if: |
-      (matrix.platform == 'linux' && (github.event.inputs.build_linux != 'false' || github.event_name != 'workflow_dispatch')) ||
-      (matrix.platform == 'windows' && (github.event.inputs.build_windows != 'false' || github.event_name != 'workflow_dispatch')) ||
-      (matrix.platform == 'macos' && (github.event.inputs.build_macos != 'false' || github.event_name != 'workflow_dispatch'))
     
     strategy:
       fail-fast: false
@@ -88,7 +84,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: organizador-archivos-${{ matrix.platform }}
+          name: neatshift-${{ matrix.platform }}
           path: ${{ matrix.artifact }}
           if-no-files-found: error
           retention-days: 30
