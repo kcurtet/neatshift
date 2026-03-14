@@ -80,6 +80,28 @@ flet build ipa
 
 Ejecutables disponibles en `build/`.
 
+### Usando Nix (Recomendado para desarrollo)
+
+Si tienes [Nix con flakes habilitado](https://nixos.wiki/wiki/Flakes):
+
+```bash
+# Entrar al shell de desarrollo con todas las dependencias
+nix develop
+
+# O usar direnv para carga automática (una vez)
+echo "use flake" > .envrc
+direnv allow
+
+# Ahora puedes ejecutar directamente
+flet run
+```
+
+El flake incluye:
+- ✅ Python con uv
+- ✅ Compilador GCC
+- ✅ Todas las dependencias GTK3 para Flet en Linux
+- ✅ Variables de entorno configuradas automáticamente
+
 ## 🎯 Uso
 
 1. **Selecciona carpeta origen**: Donde están los archivos desordenados
@@ -154,7 +176,21 @@ file-organizer/
 
 ### Ejecutar en modo desarrollo
 
+**Con Nix (recomendado):**
 ```bash
+nix develop
+flet run
+```
+
+**Sin Nix:**
+```bash
+# Instalar dependencias del sistema (Linux)
+sudo apt install libgtk-3-0 libgdk-pixbuf2.0-0
+
+# Instalar dependencias Python
+pip install flet
+
+# Ejecutar
 flet run
 ```
 
