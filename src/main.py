@@ -48,7 +48,7 @@ if str(project_root) not in sys.path:
 
 import flet as ft
 
-from src.ui import FileOrganizerView
+from src.ui.tabbed_view import FileOrganizerApp
 
 
 def setup_logging() -> None:
@@ -79,6 +79,7 @@ def setup_logging() -> None:
     logging.getLogger("src.services").setLevel(logging.INFO)
     logging.getLogger("src.domain").setLevel(logging.WARNING)
     logging.getLogger("src.ui").setLevel(logging.WARNING)
+    logging.getLogger("src.config").setLevel(logging.INFO)
     
     logger = logging.getLogger(__name__)
     logger.info(f"Logging initialized. Log file: {log_file}")
@@ -87,13 +88,13 @@ def setup_logging() -> None:
 async def main(page: ft.Page) -> None:
     """
     Application entry point.
-    Creates and displays the main view with injected dependencies.
+    Creates and displays the main tabbed view with configuration support.
     """
     # Initialize logging
     setup_logging()
     
-    # Create main view
-    FileOrganizerView(page)
+    # Create main app with tabs
+    FileOrganizerApp(page)
 
 
 if __name__ == "__main__":

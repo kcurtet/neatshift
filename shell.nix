@@ -4,6 +4,7 @@ pkgs.mkShell {
   buildInputs = [
     pkgs.gcc
     pkgs.uv
+    pkgs.flutter
     
     # GTK dependencies for Flet on Linux
     pkgs.gtk3

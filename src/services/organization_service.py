@@ -5,6 +5,7 @@ Depends on abstractions (DIP) - uses FileCategorizer protocol.
 """
 import logging
 import os
+import sys
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
@@ -15,6 +16,17 @@ from ..config.settings import AppSettings
 from ..domain.categorizer import FileCategorizer
 from ..domain.file_item import FileItem, FileStatus
 from .file_service import FileService
+from .performance_optimizer import PerformanceOptimizer
+
+# Use Windows-optimized service on Windows, fallback otherwise
+if sys.platform == 'win32':
+    try:
+        from .windows_file_service import WindowsFileService
+        FileServiceImpl = WindowsFileService
+    except ImportError:
+        FileServiceImpl = FileService
+else:
+    FileServiceImpl = FileService
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -53,15 +65,17 @@ class OrganizationService:
             categorizer: Strategy for categorizing files (follows DIP)
         """
         self.categorizer = categorizer
-        self.file_service = FileService()
+        self.file_service = FileServiceImpl()
+        logger.info(f"Using file service: {FileServiceImpl.__name__}")
     
-    def scan_and_plan(self, source: Path, dest: Path) -> list[FileItem]:
+    def scan_and_plan(self, source: Path, dest: Path, skip_hidden: bool = True) -> list[FileItem]:
         """
         Scan source directory and build organization plan.
         
         Args:
             source: Source directory to scan
             dest: Destination base directory
+            skip_hidden: Whether to skip hidden files/directories
             
         Returns:
             List of FileItem objects representing the organization plan
@@ -70,33 +84,47 @@ class OrganizationService:
         
         for root, dirs, files in os.walk(source):
             # Skip hidden directories
-            if AppSettings.SKIP_HIDDEN_FILES:
+            if skip_hidden:
                 dirs[:] = [d for d in dirs if not d.startswith(AppSettings.HIDDEN_PREFIX)]
             
             for filename in files:
                 # Skip hidden files
-                if AppSettings.SKIP_HIDDEN_FILES and filename.startswith(AppSettings.HIDDEN_PREFIX):
+                if skip_hidden and filename.startswith(AppSettings.HIDDEN_PREFIX):
                     continue
                 
                 src_path = Path(root) / filename
                 
                 try:
                     # Categorize file using injected strategy
-                    category = self.categorizer.categorize(src_path)
-                    date_folder = self.file_service.get_date_folder(src_path)
-                    dst_path = dest / category.value / date_folder / filename
+                    result = self.categorizer.categorize(src_path)
+                    
+                    # Handle both old-style (FileCategory) and new-style (tuple) results
+                    if isinstance(result, tuple):
+                        category, organize_by_date = result
+                    else:
+                        # Backward compatibility with DefaultFileCategorizer
+                        category = result.value
+                        organize_by_date = True
+                    
+                    # Build destination path
+                    if organize_by_date:
+                        date_folder = self.file_service.get_date_folder(src_path)
+                        dst_path = dest / category / date_folder / filename
+                    else:
+                        date_folder = ""
+                        dst_path = dest / category / filename
                     
                     plan.append(FileItem(
                         src=src_path,
                         dst=dst_path,
-                        category=category.value,
+                        category=category,
                         date=date_folder,
                         filename=filename,
                         status=FileStatus.PENDING,
                     ))
-                except Exception:
+                except Exception as ex:
                     # Skip files that can't be processed
-                    pass
+                    logger.debug(f"Skipping {src_path}: {ex}")
         
         return plan
     
@@ -112,7 +140,7 @@ class OrganizationService:
         Args:
             plan: List of FileItem objects to process
             progress_callback: Optional callback for progress updates
-            max_workers: Number of worker threads (default: from AppSettings)
+            max_workers: Number of worker threads (default: auto-calculated based on operations)
             
         Returns:
             Tuple of (successful_count, error_count)
@@ -120,8 +148,23 @@ class OrganizationService:
         if not plan:
             return 0, 0
         
+        # Auto-calculate optimal workers if not specified
         if max_workers is None:
-            max_workers = AppSettings.get_max_workers()
+            # Check if operations are cross-drive or network
+            is_network = any(
+                PerformanceOptimizer.is_network_path(item.src) or
+                PerformanceOptimizer.is_network_path(item.dst)
+                for item in plan[:10]  # Sample first 10 files
+            )
+            
+            # Check if majority are cross-drive operations
+            _, is_cross_drive = PerformanceOptimizer.estimate_cross_drive_operations(plan)
+            
+            max_workers = PerformanceOptimizer.calculate_optimal_workers(
+                file_count=len(plan),
+                is_cross_drive=is_cross_drive,
+                is_network=is_network,
+            )
         
         total = len(plan)
         completed = 0
