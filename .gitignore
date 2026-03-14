@@ -68,3 +68,7 @@ PROBLEMAS_FLET*.md
 RESUMEN_FINAL.md
 VERIFICACION.md
 MEJORAS.md
+
+# Direnv
+.envrc
+.direnv/
