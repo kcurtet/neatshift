@@ -4,8 +4,8 @@ Configurable file categorizer - Uses UserConfig for dynamic categorization.
 from pathlib import Path
 from typing import Optional
 
-from ..config.settings import FileCategory
-from ..config.user_config import UserConfig, CategoryConfig
+from config.settings import FileCategory
+from config.user_config import UserConfig, CategoryConfig
 
 
 class ConfigurableFileCategorizer:

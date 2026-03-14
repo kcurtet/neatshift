@@ -4,8 +4,8 @@ Settings view - Manage categories, filters, and application preferences.
 import flet as ft
 from typing import Callable
 
-from ..config import Theme
-from ..config.user_config import UserConfig, CategoryConfig
+from config import Theme
+from config.user_config import UserConfig, CategoryConfig
 
 
 class SettingsView:

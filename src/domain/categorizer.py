@@ -4,7 +4,7 @@ Uses Protocol for extensibility without modification.
 """
 from pathlib import Path
 from typing import Protocol
-from ..config.settings import FileCategory, EXTENSION_TO_CATEGORY
+from config.settings import FileCategory, EXTENSION_TO_CATEGORY
 
 
 class FileCategorizer(Protocol):

@@ -10,7 +10,7 @@ from typing import Optional
 import logging
 from platformdirs import user_config_dir, user_log_dir
 
-from .settings import FileCategory, CATEGORY_EXTENSIONS
+from config.settings import FileCategory, CATEGORY_EXTENSIONS
 
 logger = logging.getLogger(__name__)
 

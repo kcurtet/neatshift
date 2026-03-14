@@ -3,7 +3,7 @@ UI Theme configuration - Single Responsibility Principle.
 Handles all visual styling constants.
 """
 from typing import Final
-from .settings import FileCategory
+from config.settings import FileCategory
 
 
 class Theme:

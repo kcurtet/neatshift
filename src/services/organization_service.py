@@ -12,16 +12,16 @@ from pathlib import Path
 from typing import Protocol
 import threading
 
-from ..config.settings import AppSettings
-from ..domain.categorizer import FileCategorizer
-from ..domain.file_item import FileItem, FileStatus
-from .file_service import FileService
-from .performance_optimizer import PerformanceOptimizer
+from config.settings import AppSettings
+from domain.categorizer import FileCategorizer
+from domain.file_item import FileItem, FileStatus
+from services.file_service import FileService
+from services.performance_optimizer import PerformanceOptimizer
 
 # Use Windows-optimized service on Windows, fallback otherwise
 if sys.platform == 'win32':
     try:
-        from .windows_file_service import WindowsFileService
+        from services.windows_file_service import WindowsFileService
         FileServiceImpl = WindowsFileService
     except ImportError:
         FileServiceImpl = FileService

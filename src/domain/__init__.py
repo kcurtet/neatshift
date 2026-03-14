@@ -1,6 +1,6 @@
-from .file_item import FileItem, FileStatus
-from .categorizer import FileCategorizer, DefaultFileCategorizer
-from .configurable_categorizer import ConfigurableFileCategorizer
+from domain.file_item import FileItem, FileStatus
+from domain.categorizer import FileCategorizer, DefaultFileCategorizer
+from domain.configurable_categorizer import ConfigurableFileCategorizer
 
 __all__ = [
     "FileItem", 

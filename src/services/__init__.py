@@ -1,4 +1,4 @@
-from .file_service import FileService
-from .organization_service import OrganizationService
+from services.file_service import FileService
+from services.organization_service import OrganizationService
 
 __all__ = ["FileService", "OrganizationService"]

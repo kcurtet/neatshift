@@ -46,16 +46,10 @@ import logging
 import sys
 from pathlib import Path
 
-# Add project root to Python path
-# This allows imports to work when running with 'flet run' or 'python src/main.py'
-project_root = Path(__file__).parent.parent
-if str(project_root) not in sys.path:
-    sys.path.insert(0, str(project_root))
-
 import flet as ft
 
-from src.ui.tabbed_view import FileOrganizerApp
-from src.config.user_config import LOG_DIR
+from ui.tabbed_view import FileOrganizerApp
+from config.user_config import LOG_DIR
 
 
 def setup_logging() -> None:
@@ -66,7 +60,7 @@ def setup_logging() -> None:
     File logs are stored in platform-appropriate directory:
     - Linux: ~/.local/state/organizador-archivos/log/
     - macOS: ~/Library/Logs/organizador-archivos/
-    - Windows: %LOCALAPPDATA%\organizador-archivos\log\
+    - Windows: %LOCALAPPDATA%\\organizador-archivos\\log\\
     """
     # Create logs directory
     LOG_DIR.mkdir(parents=True, exist_ok=True)
@@ -85,10 +79,10 @@ def setup_logging() -> None:
     )
     
     # Set specific loggers to appropriate levels
-    logging.getLogger("src.services").setLevel(logging.INFO)
-    logging.getLogger("src.domain").setLevel(logging.WARNING)
-    logging.getLogger("src.ui").setLevel(logging.WARNING)
-    logging.getLogger("src.config").setLevel(logging.INFO)
+    logging.getLogger("services").setLevel(logging.INFO)
+    logging.getLogger("domain").setLevel(logging.WARNING)
+    logging.getLogger("ui").setLevel(logging.WARNING)
+    logging.getLogger("config").setLevel(logging.INFO)
     
     logger = logging.getLogger(__name__)
     logger.info(f"Logging initialized. Log file: {log_file}")

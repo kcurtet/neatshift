@@ -5,10 +5,10 @@ Follows Single Responsibility and Dependency Inversion principles.
 import flet as ft
 from pathlib import Path
 
-from ..config import AppSettings, Theme
-from ..domain import DefaultFileCategorizer
-from ..domain.file_item import FileItem, FileStatus
-from ..services import OrganizationService
+from config import AppSettings, Theme
+from domain import DefaultFileCategorizer
+from domain.file_item import FileItem, FileStatus
+from services import OrganizationService
 
 
 class FileOrganizerView:
@@ -29,11 +29,8 @@ class FileOrganizerView:
         categorizer = DefaultFileCategorizer()
         self.org_service = OrganizationService(categorizer)
         
-        # Configure page
-        self._configure_page()
-        
         # Build UI
-        self._build_ui()
+        self.view = self._build_ui()
     
     def _configure_page(self) -> None:
         """Configure page properties."""
@@ -50,7 +47,7 @@ class FileOrganizerView:
             self.page.window.min_width = AppSettings.MIN_WIDTH
             self.page.window.min_height = AppSettings.MIN_HEIGHT
     
-    def _build_ui(self) -> None:
+    def _build_ui(self) -> ft.Column:
         """Build the user interface."""
         # Header
         header = self._create_header()
@@ -75,14 +72,11 @@ class FileOrganizerView:
         # Status bar
         status_bar = self._create_status_bar()
         
-        # Add to page
-        self.page.add(
-            ft.Column(
-                [header, path_container, action_bar, summary_container, 
-                 table_container, status_bar],
-                expand=True,
-                spacing=0,
-            )
+        return ft.Column(
+            [header, path_container, action_bar, summary_container, 
+             table_container, status_bar],
+            expand=True,
+            spacing=0,
         )
     
     def _create_header(self) -> ft.Container:
@@ -340,7 +334,7 @@ class FileOrganizerView:
         
         for category, count in sorted(counts.items(), key=lambda x: -x[1]):
             # Get icon from theme - note: category is string value, need to convert
-            from ..config.settings import FileCategory
+            from config.settings import FileCategory
             cat_enum = next((c for c in FileCategory if c.value == category), FileCategory.OTHER)
             icon = Theme.get_category_icon(cat_enum)
             
@@ -474,3 +468,12 @@ class FileOrganizerView:
         )
         self.page.snack_bar.open = True
         self.page.update()
+    
+    def get_view(self) -> ft.Column:
+        """Get the file organizer view control."""
+        return self.view
+    
+    def refresh_config(self):
+        """Refresh configuration (placeholder for future implementation)."""
+        # TODO: Implement configuration refresh logic
+        pass
