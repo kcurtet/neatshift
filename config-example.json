@@ -1,0 +1,158 @@
+{
+  "categories": {
+    "Imágenes": {
+      "category": "Imágenes",
+      "enabled": true,
+      "organize_by_date": true,
+      "extensions": [
+        ".jpg",
+        ".jpeg",
+        ".png",
+        ".gif",
+        ".bmp",
+        ".tiff",
+        ".tif",
+        ".webp",
+        ".heic",
+        ".raw",
+        ".cr2",
+        ".nef",
+        ".arw"
+      ],
+      "regex_patterns": [
+        "^IMG_\\d{8}_\\d{6}.*",
+        "^DSC\\d+.*",
+        "^screenshot.*"
+      ]
+    },
+    "Vídeos": {
+      "category": "Vídeos",
+      "enabled": true,
+      "organize_by_date": true,
+      "extensions": [
+        ".mp4",
+        ".mov",
+        ".avi",
+        ".mkv",
+        ".wmv",
+        ".flv",
+        ".m4v",
+        ".3gp",
+        ".webm",
+        ".mpg",
+        ".mpeg"
+      ],
+      "regex_patterns": []
+    },
+    "Documentos": {
+      "category": "Documentos",
+      "enabled": true,
+      "organize_by_date": true,
+      "extensions": [
+        ".pdf",
+        ".doc",
+        ".docx",
+        ".xls",
+        ".xlsx",
+        ".ppt",
+        ".pptx",
+        ".txt",
+        ".odt",
+        ".ods",
+        ".odp",
+        ".rtf",
+        ".csv"
+      ],
+      "regex_patterns": [
+        "(factura|invoice).*",
+        "^report_\\d{4}.*"
+      ]
+    },
+    "Música": {
+      "category": "Música",
+      "enabled": true,
+      "organize_by_date": false,
+      "extensions": [
+        ".mp3",
+        ".wav",
+        ".flac",
+        ".aac",
+        ".ogg",
+        ".wma",
+        ".m4a",
+        ".opus",
+        ".aiff"
+      ],
+      "regex_patterns": []
+    },
+    "Código": {
+      "category": "Código",
+      "enabled": true,
+      "organize_by_date": false,
+      "extensions": [
+        ".py",
+        ".js",
+        ".ts",
+        ".html",
+        ".css",
+        ".java",
+        ".cpp",
+        ".c",
+        ".h",
+        ".cs",
+        ".php",
+        ".rb",
+        ".go",
+        ".rs",
+        ".json",
+        ".xml",
+        ".yaml",
+        ".yml",
+        ".sh",
+        ".bat",
+        ".ps1"
+      ],
+      "regex_patterns": []
+    },
+    "Comprimidos": {
+      "category": "Comprimidos",
+      "enabled": true,
+      "organize_by_date": true,
+      "extensions": [
+        ".zip",
+        ".rar",
+        ".7z",
+        ".tar",
+        ".gz",
+        ".bz2",
+        ".xz"
+      ],
+      "regex_patterns": [
+        "^backup_.*"
+      ]
+    },
+    "Backups": {
+      "category": "Backups",
+      "enabled": true,
+      "organize_by_date": true,
+      "extensions": [
+        ".bak",
+        ".backup"
+      ],
+      "regex_patterns": [
+        ".*backup.*",
+        ".*\\d{4}-\\d{2}-\\d{2}.*"
+      ]
+    },
+    "Otros": {
+      "category": "Otros",
+      "enabled": true,
+      "organize_by_date": true,
+      "extensions": [],
+      "regex_patterns": []
+    }
+  },
+  "skip_hidden_files": true,
+  "last_source_path": "/home/usuario/Descargas",
+  "last_dest_path": "/media/usuario/DiskoDuro/Organizado"
+}
