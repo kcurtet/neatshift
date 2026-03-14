@@ -1,29 +1,13 @@
-# Build multiplataforma para Organizador de Archivos
-# Ejecuta builds automáticos en push, PR, tags y manual dispatch
+# Build multiplataforma para NeatShift
+# Solo ejecuta builds en tags de release (v*) o workflow_dispatch manual
 # Docs: https://docs.flet.dev/publish/#github-actions
 
 name: Build
 
 on:
   push:
-    branches: [main]
     tags: ['v*']
-  pull_request:
-    branches: [main]
   workflow_dispatch:
-    inputs:
-      build_linux:
-        description: 'Build Linux'
-        type: boolean
-        default: true
-      build_windows:
-        description: 'Build Windows'
-        type: boolean
-        default: true
-      build_macos:
-        description: 'Build macOS'
-        type: boolean
-        default: true
 
 env:
   PYTHON_VERSION: "3.12"
@@ -35,6 +19,7 @@ jobs:
   build:
     name: Build ${{ matrix.platform }}
     runs-on: ${{ matrix.os }}
+    if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
     
     strategy:
       fail-fast: false
@@ -99,7 +84,7 @@ jobs:
           name: neatshift-${{ matrix.platform }}
           path: ${{ matrix.artifact }}
           if-no-files-found: error
-          retention-days: 30
+          retention-days: 90
 
   release:
     name: Create Release
